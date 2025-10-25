@@ -4,3 +4,4 @@
 
 # Tipos de arquivos
 *.gz
+tests/
