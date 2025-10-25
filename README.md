@@ -1,5 +1,7 @@
 # Gastos-Deputados-Brazil-IO
 
-Repositório para projeto de Engenharia de Dados consultando dados de gastos de deputados fornecidos pela Brazil IO
+<b> EM FASE DE DESENVOLVIMENTO </b>
 
-<b> Em fase de desenvolvimento </b>
+Repositório para projeto de Engenharia de Dados consultando dados de gastos de deputados fornecidos pelo portal da transparência e coletados e dispostos para uso pela [Brazil IO](https://brasil.io/home/)
+
+
