@@ -4,3 +4,7 @@
 
 # Tipos de arquivos
 *.gz
+*.csv
+
+# Pastas 
+data/

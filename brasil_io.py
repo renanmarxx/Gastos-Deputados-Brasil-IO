@@ -2,6 +2,8 @@ import csv
 import gzip
 import io
 import json
+import os
+import shutil
 from urllib.parse import urlencode, urljoin
 from urllib.request import Request, urlopen
 
@@ -64,19 +66,31 @@ if __name__ == "__main__":
 
     # Após fazer o download, você salvá-lo no disco ou percorrer o arquivo em memória. 
     
-    # Para salvá-lo no disco:
+    # Para salvá-lo em memória (em streaming, dentro da pasta `data/`):
     response = api.download(dataset_slug, table_name)
-    with open(f"{dataset_slug}_{table_name}.csv.gz", mode="wb") as fobj:
-        fobj.write(response.read())
-    # TODO: o código acima pode ser melhorado de forma a não utilizar
-    # `response.read()` para não colocar todo oarquivo em memória e sim fazer
-    # streaming da resposta HTTP e salvar cada chunk diretamente no `fobj`.
+    
+    # Limpa a pasta "data" - pasta que armazenará os arquivos de ingestão -  por completo (remove e recria)
+    if os.path.exists("data"):
+        shutil.rmtree("data")
+    os.makedirs("data", exist_ok=True)
+
+    # Define o caminho do arquivo de saída
+    out_path = os.path.join("data", f"{dataset_slug}_{table_name}.csv.gz")
+
+    # grava em chunks para não carregar todo o arquivo em memória
+    chunk_size = 16 * 1024
+    
+    with open(out_path, mode="wb") as fobj:
+        while True:
+            chunk = response.read(chunk_size)
+            if not chunk:
+                break
+            fobj.write(chunk)
 
     # Caso queira percorrer o CSV em memória:
     response = api.download(dataset_slug, table_name)
     fobj = io.TextIOWrapper(gzip.GzipFile(fileobj=response), encoding="utf-8")
     reader = csv.DictReader(fobj)
-    ## comentario
     #for row in reader:
     #    print(row)
         #pass  # faça algo com `row`
