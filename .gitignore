@@ -1,0 +1,6 @@
+# Ambientes virtuais e credenciais
+.venv/
+.env
+
+# Tipos de arquivos
+*.gz
