@@ -88,9 +88,9 @@ if __name__ == "__main__":
             fobj.write(chunk)
 
     # Caso queira percorrer o CSV em memória:
-    response = api.download(dataset_slug, table_name)
-    fobj = io.TextIOWrapper(gzip.GzipFile(fileobj=response), encoding="utf-8")
-    reader = csv.DictReader(fobj)
+    #response = api.download(dataset_slug, table_name)
+    #fobj = io.TextIOWrapper(gzip.GzipFile(fileobj=response), encoding="utf-8")
+    #reader = csv.DictReader(fobj)
     #for row in reader:
     #    print(row)
         #pass  # faça algo com `row`
