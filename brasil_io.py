@@ -62,24 +62,24 @@ if __name__ == "__main__":
     dataset_slug = "gastos-deputados"
     table_name = "cota_parlamentar"
 
-    # Para baixar o arquivo completo:
-
-    # Após fazer o download, você salvá-lo no disco ou percorrer o arquivo em memória. 
+    # To download the full file:
+    # After downloading, it will store the file on local memory in `data/` folder. 
     
-    # Para salvá-lo em memória (em streaming, dentro da pasta `data/`):
+    # Connects to the API:
     response = api.download(dataset_slug, table_name)
     
-    # Limpa a pasta "data" - pasta que armazenará os arquivos de ingestão -  por completo (remove e recria)
+    # Check if `data/` folder exists, if so cleans the entire directory. Otherwise, it will create a new folder:
     if os.path.exists("data"):
         shutil.rmtree("data")
     os.makedirs("data", exist_ok=True)
 
-    # Define o caminho do arquivo de saída
+    # Defining file path:
     out_path = os.path.join("data", f"{dataset_slug}_{table_name}.csv.gz")
 
-    # grava em chunks para não carregar todo o arquivo em memória
+    # Defining chunks to store the file to avoid memory overloads:
     chunk_size = 16 * 1024
     
+    # Writing the file in chunks:
     with open(out_path, mode="wb") as fobj:
         while True:
             chunk = response.read(chunk_size)
