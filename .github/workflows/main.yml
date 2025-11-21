@@ -66,7 +66,7 @@ jobs:
 
       - name: Upload to S3
         run: |
-          aws s3 cp data/gastos-deputados_cota_parlamentar.csv.gz s3://meu-bucket-exemplo/
+          aws s3 cp data/gastos-deputados_cota_parlamentar.csv.gz s3://gastos-deputados-brasil-io/landing-bucket-gastos-deputados-brasil-io/
 
 # Observações:
 # - Configure o secret 'BRASIL_IO_TOKEN' em Settings -> Secrets do repositório.
