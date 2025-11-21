@@ -33,6 +33,17 @@ jobs:
       - name: Sts GetCallerIdentity
         run: |
           aws sts get-caller-identity
+      
+      - name: Generate CSV
+        run: |
+          pyenv local 3.12.6
+          poetry env use 3.12.6
+          poetry install
+          poetry run python /scripts/brasil_io.py
+      
+      - name: Upload to S3
+        run: |
+          aws s3 cp /scripts/municipios.csv s3://meu-bucket-exemplo/municipios.csv #altere para refletir o nome do seu bucket S3
 
  #3. Modifique o workflow para refletir as informações da sua conta AWS:
 #YAML
