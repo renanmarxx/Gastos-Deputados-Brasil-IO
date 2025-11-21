@@ -68,7 +68,7 @@ jobs:
         run: |
           aws s3 cp data/gastos-deputados_cota_parlamentar.csv.gz s3://gastos-deputados-brasil-io/landing-bucket-gastos-deputados-brasil-io/
 
-# Observações:
+# Observações 1:
 # - Configure o secret 'BRASIL_IO_TOKEN' em Settings -> Secrets do repositório.
 # - Ajuste a ARN da role e o bucket S3 conforme sua conta.
 
