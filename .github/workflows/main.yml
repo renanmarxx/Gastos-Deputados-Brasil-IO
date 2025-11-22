@@ -64,7 +64,7 @@ jobs:
           # script writes output to data/ by default
           poetry run python scripts/brasil_io.py
 
-      - name: Upload to S3
+      - name: Upload to S3 
         run: |
           aws s3 cp data/gastos-deputados_cota_parlamentar.csv.gz ${{ secrets.LANDING_BUCKET_INGESTION }}
           
