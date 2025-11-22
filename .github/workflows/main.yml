@@ -28,6 +28,14 @@ jobs:
           role-to-assume: arn:aws:iam::535942231592:role/GitHub_Actions_Personal # altere para a ARN da sua IAM role
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
           aws-region: ${{ env.AWS_REGION }}
+      
+      - name: Use credentials directly
+        run: |
+          export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+          export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+          export AWS_SESSION_TOKEN=$AWS_SESSION_TOKEN
+
+          echo "Temporary valid credentials sent to Databricks environment"
 
       - name: STS GetCallerIdentity
         run: aws sts get-caller-identity
@@ -78,14 +86,14 @@ jobs:
       ###############################################################
       # ➤ GERAR CREDENCIAIS TEMPORÁRIAS (STS) PARA O DATABRICKS
       ###############################################################
-      - name: Generate temporary AWS STS credentials for Databricks
-        id: stscreds
-        run: |
-          CREDS=$(aws sts get-session-token --duration-seconds 900)
-          echo "AWS_ACCESS_KEY_ID=$(echo $CREDS | jq -r .Credentials.AccessKeyId)" >> $GITHUB_ENV
-          echo "AWS_SECRET_ACCESS_KEY=$(echo $CREDS | jq -r .Credentials.SecretAccessKey)" >> $GITHUB_ENV
-          echo "AWS_SESSION_TOKEN=$(echo $CREDS | jq -r .Credentials.SessionToken)" >> $GITHUB_ENV
-          echo "AWS_EXPIRATION=$(echo $CREDS | jq -r .Credentials.Expiration)" >> $GITHUB_ENV
+      #- name: Generate temporary AWS STS credentials for Databricks
+      #  id: stscreds
+      #  run: |
+      #    CREDS=$(aws sts get-session-token --duration-seconds 900)
+      #    echo "AWS_ACCESS_KEY_ID=$(echo $CREDS | jq -r .Credentials.AccessKeyId)" >> $GITHUB_ENV
+      #    echo "AWS_SECRET_ACCESS_KEY=$(echo $CREDS | jq -r .Credentials.SecretAccessKey)" >> $GITHUB_ENV
+      #    echo "AWS_SESSION_TOKEN=$(echo $CREDS | jq -r .Credentials.SessionToken)" >> $GITHUB_ENV
+      #    echo "AWS_EXPIRATION=$(echo $CREDS | jq -r .Credentials.Expiration)" >> $GITHUB_ENV
           
       ###############################################################
       # ➤ CHAMAR UM JOB NO DATABRICKS E PASSAR AS CREDENCIAIS TEMPORÁRIAS
