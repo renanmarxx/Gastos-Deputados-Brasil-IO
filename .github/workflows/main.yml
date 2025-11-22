@@ -19,7 +19,7 @@ jobs:
   AssumeRoleAndCallIdentity:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout Branch
         uses: actions/checkout@v3
 
       - name: Configure AWS Credentials (OIDC)
@@ -70,9 +70,5 @@ jobs:
           
           
 # Observações 1:
-# - Configure o secret 'BRASIL_IO_TOKEN' em Settings -> Secrets do repositório.
-# - Ajuste a ARN da role e o bucket S3 conforme sua conta.
 # s3://gastos-deputados-brasil-io/landing-bucket-gastos-deputados-brasil-io/
 # s3://renan-marx-data-engineering-projects/gastos-deputados-brasil-io/landing-bucket-gastos-deputados-brasil-io/
-
-
