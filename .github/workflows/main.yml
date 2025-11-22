@@ -87,6 +87,22 @@ jobs:
           echo "AWS_SESSION_TOKEN=$(echo $CREDS | jq -r .Credentials.SessionToken)" >> $GITHUB_ENV
           echo "AWS_EXPIRATION=$(echo $CREDS | jq -r .Credentials.Expiration)" >> $GITHUB_ENV
           
+      ###############################################################
+      # ➤ CHAMAR UM JOB NO DATABRICKS E PASSAR AS CREDENCIAIS TEMPORÁRIAS
+      ###############################################################
+      - name: Trigger Databricks Ingestion Job with STS credentials
+        run: |
+          curl -X POST "${{ secrets.DATABRICKS_WORKSPACE_URL }}/api/2.1/jobs/run-now" \
+            -H "Authorization: Bearer ${{ secrets.DATABRICKS_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d "{
+              \"job_id\": \"${{ secrets.DATABRICKS_JOB_ID }}\",
+              \"notebook_params\": {
+                \"aws_access_key\": \"${AWS_ACCESS_KEY_ID}\",
+                \"aws_secret_key\": \"${AWS_SECRET_ACCESS_KEY}\",
+                \"aws_session_token\": \"${AWS_SESSION_TOKEN}\"
+              }
+            }"
           
 # Observações 1:
 # s3://gastos-deputados-brasil-io/landing-bucket-gastos-deputados-brasil-io/
