@@ -28,9 +28,7 @@ class BrasilIO:
         data.update({"Authorization": f"Token {self.__auth_token}"})
         return data
 
-    def api_request(
-        self, path: str, query_string: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+    def api_request(self, path: str, query_string: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """
         Request to Brasil.io API and returns a JSON dictionary.
 
@@ -49,12 +47,7 @@ class BrasilIO:
         response = urlopen(request)
         return json.load(response)
 
-    def data(
-        self,
-        DATASET_SLUG: str,
-        TABLE_NAME: str,
-        filters: Optional[Dict[str, Any]] = None,
-    ) -> Iterator[Dict[str, Any]]:
+    def data(self, DATASET_SLUG: str, TABLE_NAME: str, filters: Optional[Dict[str, Any]] = None, ) -> Iterator[Dict[str, Any]]:
         """
         Iterator over dataset rows.
 
@@ -122,7 +115,7 @@ if __name__ == "__main__":
     chunk_size = 16 * 1024
 
     # Writing the file in chunks:
-    with open(out_path, mode="wb") as fobj:
+    with open(out_path, mode = "wb") as fobj:
         while True:
             chunk = response.read(chunk_size)
             if not chunk:
