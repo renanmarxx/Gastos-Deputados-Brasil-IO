@@ -14,7 +14,7 @@ process_date_str = str(process_date)
 
 input_path = paths.CSV_FILE_PUBLIC_PATH_LEFT + process_date_str + paths.CSV_FILE_PUBLIC_PATH_RIGHT
 
-local_path = "/tmp/gastos-deputados_cota_parlamentar.csv"
+dbfs_path = "/dbfs/tmp/gastos-deputados_cota_parlamentar.csv"
 
 # Download the file
 response = requests.get(input_path)
