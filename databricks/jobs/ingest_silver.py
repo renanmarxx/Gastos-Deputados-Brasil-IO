@@ -1,4 +1,4 @@
-import utils.functions
+from pyspark.sql.functions import lit, current_timestamp, col
 
 dbutils.widgets.text("process_date", "")
 process_date = dbutils.widgets.get("process_date")
