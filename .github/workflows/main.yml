@@ -76,7 +76,7 @@ jobs:
         run: |
           poetry run black scripts/*.py
           poetry run black databricks/jobs/*.py
-          poetry run black databricks/utils/*.py
+          poetry run black databricks/jobs/utils/*.py
 
       - name: Generate CSV
         env:
