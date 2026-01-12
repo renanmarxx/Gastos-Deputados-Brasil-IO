@@ -226,3 +226,6 @@ __marimo__/
 
 # Pastas 
 data/
+
+# Config
+scripts/config.py
