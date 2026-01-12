@@ -19,7 +19,7 @@ permissions:
   contents: read
 
 jobs:
-  AssumeRoleAndCallIdentity:
+  CI_CD_Workflow:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Branch
@@ -78,28 +78,15 @@ jobs:
           poetry run black scripts/ingest_csv_to_s3.py
           poetry run black scripts/ingest_s3_to_delta.py
 
-      #- name: Generate CSV
-      #  env:
-      #    BRASIL_IO_TOKEN: ${{ secrets.BRASIL_IO_TOKEN }}
-      #  run: |
-      #    poetry run python scripts/ingest_csv_to_s3.py 
-
-      #- name: Upload to S3 
-      #  run: |
-      #    aws s3 cp data/gastos-deputados_cota_parlamentar.csv.gz ${{ secrets.LANDING_BUCKET_INGESTION }}
-           
-      - name: Debug payload
+      - name: Generate CSV
+        env:
+          BRASIL_IO_TOKEN: ${{ secrets.BRASIL_IO_TOKEN }}
         run: |
-          cat <<EOF
-          {
-            "job_id": "${{ secrets.DATABRICKS_JOB_ID }}",
-            "notebook_params": {
-              "aws_access_key": "${AWS_ACCESS_KEY_ID}",
-              "aws_secret_key": "${AWS_SECRET_ACCESS_KEY}",
-              "aws_session_token": "${AWS_SESSION_TOKEN}"
-            }
-          }
-          EOF
+          poetry run python scripts/ingest_csv_to_s3.py 
+
+      - name: Upload to S3 
+        run: |
+          aws s3 cp data/gastos-deputados_cota_parlamentar.csv.gz ${{ secrets.LANDING_BUCKET_INGESTION }}
 
       - name: Trigger Databricks Ingestion Job with STS credentials
         run: |
