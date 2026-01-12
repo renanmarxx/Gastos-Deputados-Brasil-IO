@@ -1,4 +1,4 @@
-import utils.functions as f
+import utils.functions
 
 dbutils.widgets.text("process_date", "")
 process_date = dbutils.widgets.get("process_date")
