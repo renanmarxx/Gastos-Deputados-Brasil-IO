@@ -74,9 +74,9 @@ jobs:
 
       - name: Run black on python files
         run: |
-          poetry run black scripts/brasil_io.py
-          poetry run black scripts/ingest_csv_to_s3.py
-          poetry run black scripts/ingest_s3_to_delta.py
+          poetry run black scripts/*.py
+          poetry run black databricks/jobs/*.py
+          poetry run black databricks/utils/*.py
 
       - name: Generate CSV
         env:
