@@ -83,6 +83,19 @@ jobs:
       #  run: |
       #    aws s3 cp data/gastos-deputados_cota_parlamentar.csv.gz ${{ secrets.LANDING_BUCKET_INGESTION }}
            
+      - name: Debug payload
+        run: |
+          cat <<EOF
+          {
+            "job_id": "${{ secrets.DATABRICKS_JOB_ID }}",
+            "notebook_params": {
+              "aws_access_key": "${AWS_ACCESS_KEY_ID}",
+              "aws_secret_key": "${AWS_SECRET_ACCESS_KEY}",
+              "aws_session_token": "${AWS_SESSION_TOKEN}"
+            }
+          }
+          EOF
+
       - name: Trigger Databricks Ingestion Job with STS credentials
         run: |
           curl -X POST "${{ secrets.DATABRICKS_WORKSPACE_URL }}/api/2.1/jobs/run-now" \
