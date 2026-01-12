@@ -26,59 +26,47 @@ def ingest_brasil_io_to_s3(
         brasil_io_token: token da API Brasil.io. Se None, lê de BRASIL_IO_TOKEN.
 
     Raises:
-        SystemExit: se token da Brasil.io ou credenciais AWS forem inválidas.
+        SystemExit: se token da Brasil.io, S3_BUCKET ou credenciais AWS forem inválidas.
     """
+    # Validar token Brasil.io
     token = brasil_io_token or os.environ.get("BRASIL_IO_TOKEN")
-    api = BrasilIO(token)
+    if not token or token == "":
+        raise SystemExit("ERRO: defina BRASIL_IO_TOKEN (variável de ambiente ou config.py)")
     
-    # To download the full file:
-    # After downloading, it will store the file on local memory in `data/` folder.
+    # Validar bucket S3
+    if not s3_bucket or s3_bucket == "meu-bucket-exemplo":
+        raise SystemExit("ERRO: defina AWS_S3_BUCKET com um bucket S3 válido (não use 'meu-bucket-exemplo')")
 
-    # Connects to the API:
+    # Baixa dados da Brasil.io em memória
+    api = BrasilIO(token)
     response = api.download(dataset_slug, table_name)
-
-    # Check if `data/` folder exists, if so cleans the entire directory. Otherwise, it will create a new folder:
+    csv_content = response.read()
+    
+    # Salva cópia local para referência
     if os.path.exists("data"):
         shutil.rmtree("data")
     os.makedirs("data", exist_ok=True)
-
-    # Defining file path:
     out_path = os.path.join("data", f"{dataset_slug}_{table_name}.csv.gz")
-
-    # Defining chunks to store the file to avoid memory overloads:
-    chunk_size = 16 * 1024
-
-    # Writing the file in chunks:
     with open(out_path, mode="wb") as fobj:
-        while True:
-            chunk = response.read(chunk_size)
-            if not chunk:
-                break
-            fobj.write(chunk)
+        fobj.write(csv_content)
+    print(f"\nFile stored succesfuly at: {out_path}")
 
-    print(f"File stored succesfuly at: {out_path}")
-
-
-    # Lê a resposta uma única vez em memória
-    csv_content = response.read()
-    csv_bytes = BytesIO(csv_content)
-    csv_bytes.seek(0)
-
-    # Faz upload para S3
-    # AVISO: Configure credenciais AWS antes de executar:
-    #   export AWS_ACCESS_KEY_ID="sua_chave"
-    #   export AWS_SECRET_ACCESS_KEY="sua_chave_secreta"
-    #   export AWS_DEFAULT_REGION="us-east-1"
-    # Ou configure em ~/.aws/credentials
-    #try:
-    #    s3 = boto3.client("s3")
-    #    today = date.today().isoformat()
-    #    key = f"{s3_prefix}/dt={today}/{dataset_slug}_{table_name}.csv.gz"
-    #    s3.upload_fileobj(csv_bytes, s3_bucket, key)
-    #    print(f"✓ Upload bem-sucedido: s3://{s3_bucket}/{key}")
-    #except Exception as e:
-    #    print(f"✗ Erro no upload para S3: {e}")
-    #    raise
+    # Uploading .csv file to the S3 Bucket
+    print("\n>>> Starting S3 Bucket upload...")
+    
+    try:
+        csv_bytes = BytesIO(csv_content)
+        csv_bytes.seek(0)
+        
+        s3 = boto3.client("s3")
+        today = date.today().isoformat()
+        key = f"{s3_prefix}/dt={today}/{dataset_slug}_{table_name}.csv.gz"
+        
+        s3.upload_fileobj(csv_bytes, s3_bucket, key)
+        print(f"Succesful upload to the S3 Bucket: s3://{s3_bucket}/{key}")
+    except Exception as e:
+        print(f"Error uploading to the S3 Bucket: {type(e).__name__}: {e}")
+        raise
 
 
 def main() -> None:

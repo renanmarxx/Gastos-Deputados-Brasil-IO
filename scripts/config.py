@@ -8,11 +8,11 @@ import os
 
 # Bucket S3 onde os dados serão armazenados
 # Padrão: lê de variável de ambiente AWS_S3_BUCKET; se não existir, usa 'meu-bucket-exemplo'
-S3_BUCKET: str = os.environ.get("AWS_S3_BUCKET", "meu-bucket-exemplo")
+S3_BUCKET: str = os.environ.get("AWS_S3_BUCKET", "renan-marx-data-engineering-projects")
 
 # Prefixo (caminho) dentro do bucket para armazenar os dados
 # Padrão: lê de variável de ambiente AWS_S3_PREFIX; se não existir, usa 'brasil-io/gastos-deputados'
-S3_PREFIX: str = os.environ.get("AWS_S3_PREFIX", "brasil-io/gastos-deputados")
+S3_PREFIX: str = os.environ.get("AWS_S3_PREFIX", "gastos-deputados-brasil-io/landing-bucket-gastos-deputados-brasil-io")
 
 # Token da API Brasil.io (lido também no script; aqui é para referência)
 # Você deve definir via variável de ambiente: export BRASIL_IO_TOKEN='seu_token_aqui'
