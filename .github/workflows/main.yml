@@ -5,6 +5,11 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      process_date:
+        description: "Processing date (YYYY-MM-DD)"
+        required: false
 
 env:
   AWS_REGION: "us-east-1"
