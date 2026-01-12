@@ -18,11 +18,12 @@ dbfs_path = "/dbfs/tmp/gastos-deputados_cota_parlamentar.csv"
 
 # Download the file
 response = requests.get(input_path)
-with open(dbfs_path, "wb") as f:
-    f.write(response.content)
+dbutils.fs.put(dbfs_path, response.text, overwrite=True)
+#with open(dbfs_path, "wb") as f:
+#    f.write(response.content)
 
 # Read with Spark
-df = spark.read.csv("dbfs:/tmp/gastos-deputados_cota_parlamentar.csv", header=True)
+df = spark.read.csv(dbfs_path, header=True)
 
 df = df.withColumn("process_date", lit(process_date)).withColumn(
     "ingestion_ts", current_timestamp()
