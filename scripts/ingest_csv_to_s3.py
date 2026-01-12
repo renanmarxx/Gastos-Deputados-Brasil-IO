@@ -46,7 +46,7 @@ def ingest_brasil_io_to_s3(
     if os.path.exists("data"):
         shutil.rmtree("data")
     os.makedirs("data", exist_ok=True)
-    out_path = os.path.join("data", f"{dataset_slug}_{table_name}.csv.gz")
+    out_path = os.path.join("data", f"{dataset_slug}_{table_name}.csv")
     with open(out_path, mode="wb") as fobj:
         fobj.write(csv_content)
     print(f"\nFile stored succesfuly at: {out_path}")
@@ -60,7 +60,7 @@ def ingest_brasil_io_to_s3(
         
         s3 = boto3.client("s3")
         today = date.today().isoformat()
-        key = f"{s3_prefix}/dt={today}/{dataset_slug}_{table_name}.csv.gz"
+        key = f"{s3_prefix}/dt={today}/{dataset_slug}_{table_name}.csv"
         
         s3.upload_fileobj(csv_bytes, s3_bucket, key)
         print(f"Succesful upload to the S3 Bucket: s3://{s3_bucket}/{key}")

@@ -83,7 +83,7 @@ class BrasilIO:
 
     def download(self, dataset: str, TABLE_NAME: str) -> BinaryIO:
         """
-        Downloads the dataset file on .csv.gz format and returns a binary object with its content.
+        Downloads the dataset file on .csv format and returns a binary object with its content.
 
         Args:
             dataset: dataset slug.
@@ -93,7 +93,7 @@ class BrasilIO:
             Binary (`BinaryIO`) with the file content (`read()`).
         """
 
-        url = f"https://data.brasil.io/dataset/{dataset}/{TABLE_NAME}.csv.gz"
+        url = f"https://data.brasil.io/dataset/{dataset}/{TABLE_NAME}.csv"
         request = Request(url, headers=self.headers)
         response = urlopen(request)
         return response
@@ -116,7 +116,7 @@ if __name__ == "__main__":
     os.makedirs("data", exist_ok=True)
 
     # Defining file path:
-    out_path = os.path.join("data", f"{DATASET_SLUG}_{TABLE_NAME}.csv.gz")
+    out_path = os.path.join("data", f"{DATASET_SLUG}_{TABLE_NAME}.csv")
 
     # Defining chunks to store the file to avoid memory overloads:
     chunk_size = 16 * 1024
