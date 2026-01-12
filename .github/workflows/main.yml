@@ -73,11 +73,11 @@ jobs:
           poetry run black scripts/ingest_csv_to_s3.py
           poetry run black scripts/ingest_s3_to_delta.py
 
-      - name: Generate CSV
-        env:
-          BRASIL_IO_TOKEN: ${{ secrets.BRASIL_IO_TOKEN }}
-        run: |
-          poetry run python scripts/ingest_csv_to_s3.py 
+      #- name: Generate CSV
+      #  env:
+      #    BRASIL_IO_TOKEN: ${{ secrets.BRASIL_IO_TOKEN }}
+      #  run: |
+      #    poetry run python scripts/ingest_csv_to_s3.py 
 
       #- name: Upload to S3 
       #  run: |
