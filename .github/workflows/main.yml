@@ -75,7 +75,6 @@ jobs:
         env:
           BRASIL_IO_TOKEN: ${{ secrets.BRASIL_IO_TOKEN }}
         run: |
-          #poetry run python scripts/brasil_io.py
           poetry run python scripts/ingest_csv_to_s3.py 
 
       - name: Upload to S3 
