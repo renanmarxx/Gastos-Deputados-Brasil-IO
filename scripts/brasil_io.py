@@ -93,7 +93,7 @@ class BrasilIO:
             Binary (`BinaryIO`) with the file content (`read()`).
         """
 
-        url = f"https://data.brasil.io/dataset/{dataset}/{TABLE_NAME}.csv"
+        url = f"https://data.brasil.io/dataset/{dataset}/{TABLE_NAME}.csv.gz"
         request = Request(url, headers=self.headers)
         response = urlopen(request)
         return response
