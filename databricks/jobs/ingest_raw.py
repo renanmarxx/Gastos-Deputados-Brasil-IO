@@ -14,7 +14,9 @@ process_date_str = str(process_date)
 #input_path = f"https://renan-marx-data-engineering-projects.s3.us-east-2.amazonaws.com/gastos-deputados-brasil-io/landing-bucket-gastos-deputados-brasil-io/dt%3D{process_date_str}/gastos-deputados_cota_parlamentar.csv.gz"
 input_path = paths.CSV_FILE_PUBLIC_PATH_LEFT + process_date_str + paths.CSV_FILE_PUBLIC_PATH_RIGHT
 
-df = spark.read.option("header", "true").csv(input_path)
+df = spark.read.csv(input_path, header=True)    
+
+#df = spark.read.option("header", "true").csv(input_path)
 
 df = df.withColumn("process_date", lit(process_date)).withColumn(
     "ingestion_ts", current_timestamp()

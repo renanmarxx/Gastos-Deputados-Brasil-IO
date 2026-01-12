@@ -83,6 +83,5 @@ def main() -> None:
         brasil_io_token = BRASIL_IO_TOKEN,
     )
 
-
 if __name__ == "__main__":
     main()
