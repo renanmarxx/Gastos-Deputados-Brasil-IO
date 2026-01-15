@@ -1,4 +1,4 @@
-from pyspark.sql.functions import lit, current_timestamp, col
+import utils.functions as f
 from datetime import datetime
 import utils.paths as paths
 import requests
@@ -12,21 +12,25 @@ if not process_date:
 
 process_date_str = str(process_date)
 
-input_path = paths.CSV_FILE_PUBLIC_PATH_LEFT + process_date_str + paths.CSV_FILE_PUBLIC_PATH_RIGHT
+input_path = (
+    paths.CSV_FILE_PUBLIC_PATH_LEFT
+    + process_date_str
+    + paths.CSV_FILE_PUBLIC_PATH_RIGHT
+)
 
 dbfs_path = "/dbfs/tmp/gastos-deputados_cota_parlamentar.csv"
 
 # Download the file
 response = requests.get(input_path)
 dbutils.fs.put(dbfs_path, response.text, overwrite=True)
-#with open(dbfs_path, "wb") as f:
+# with open(dbfs_path, "wb") as f:
 #    f.write(response.content)
 
 # Read with Spark
 df = spark.read.csv(dbfs_path, header=True)
 
-df = df.withColumn("process_date", lit(process_date)).withColumn(
-    "ingestion_ts", current_timestamp()
+df = df.withColumn("process_date", f.lit(process_date)).withColumn(
+    "ingestion_ts", f.current_timestamp()
 )
 
 (

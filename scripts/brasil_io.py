@@ -19,7 +19,7 @@ class BrasilIO:
     @property
     def headers(self) -> Dict[str, str]:
         return {
-            "User-Agent" : "python-urllib/brasilio-client-0.1.0",
+            "User-Agent": "python-urllib/brasilio-client-0.1.0",
         }
 
     @property
