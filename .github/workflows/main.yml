@@ -72,11 +72,18 @@ jobs:
         run: |
           poetry env activate
 
-      - name: Run black on python files
+      - name: Lint with black on python files
         run: |
           poetry run black scripts/*.py
           poetry run black databricks/jobs/*.py
           poetry run black databricks/jobs/utils/*.py
+      
+      - name: Lint with ruff on python files
+        run: poetry run ruff check .
+      
+      - name: Run Tests with pytest
+        run: |
+          poetry run pytest tests/ --cov=./ --cov-report=xml
 
       - name: Generate CSV
         env:
