@@ -82,8 +82,10 @@ jobs:
       #  run: poetry run ruff check .
       
       - name: Run Tests with pytest
+        # run: |
+         # poetry run pytest tests/ --cov=./ --cov-report=xml
         run: |
-          poetry run pytest tests/ --cov=./ --cov-report=xml
+           poetry run pytest
 
       - name: Generate CSV
         env:
