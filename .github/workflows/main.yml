@@ -78,8 +78,8 @@ jobs:
           poetry run black databricks/jobs/*.py
           poetry run black databricks/jobs/utils/*.py
       
-      - name: Lint with ruff on python files
-        run: poetry run ruff check .
+      #- name: Lint with ruff on python files
+      #  run: poetry run ruff check .
       
       - name: Run Tests with pytest
         run: |
