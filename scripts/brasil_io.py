@@ -7,7 +7,7 @@ import shutil
 from typing import Any, Dict, Iterator, Optional, BinaryIO
 from urllib.parse import urlencode, urljoin
 from urllib.request import Request, urlopen
-
+from dataclasses import dataclass
 
 class BrasilIO:
 
@@ -49,6 +49,7 @@ class BrasilIO:
         response = urlopen(request)
         return json.load(response)
 
+    @dataclass
     def data(
         self,
         DATASET_SLUG: str,
