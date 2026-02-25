@@ -1,4 +1,4 @@
-name: Main Workflow for CI/CD integrations
+name: CI/CD Workflow and Integrations
 
 on:
   push:
