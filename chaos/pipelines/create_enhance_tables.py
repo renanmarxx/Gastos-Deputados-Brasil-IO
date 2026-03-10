@@ -7,6 +7,9 @@ if (frame := currentframe()) is not None:
 
 from multiprocessing.pool import ThreadPool
 
+# PENDING CLASSES AND FUNCTIONS
+# PENDING CLASSES AND FUNCTIONS
+
 from chaos.helpers.enhance import EnhanceTable
 from chaos.metadata.settings import AWSSettings
 from chaos.helpers.databricks import DatabricksHelper
@@ -21,7 +24,30 @@ def main(data_contract_name: str, environment: str):
         aws_utils=DatabricksAWSUtils(),
     )
 
-    raw_dataset = ...
+    raw_dataset = data_contract.datasets.raw.environment_info[environment]
+    raw_dataset = CatalogDatasetUtils.adjust_s3_bucket_path(
+        raw_dataset, is_enhance=False
+    )
+
+    enhance_dataset = data_contract.datasets.enhance.environment_info[environment]
+    enhance_dataset = CatalogDatasetUtils.adjust_s3_bucket_path(
+        enhance_dataset, is_enhance=True
+    )
+
+    enhance_tables = [
+        EnhanceTable(
+            dbutils=dbutils,
+            spark=spark,
+            schema=schema,
+            raw_catalog_info=raw_dataset,
+            enhance_catalog_info=enhance_dataset,
+        )
+        for schema in data_contract.schemas
+    ]
+
+    pool = ThreadPool(10)
+    mapped = pool.map_async(lambda enhance_table: enhance_table.run(), enhance_tables)
+    mapped.get()
 
 
 if __name__ == "__main__":

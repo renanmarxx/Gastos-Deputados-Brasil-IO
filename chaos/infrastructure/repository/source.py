@@ -1,3 +1,4 @@
+import re
 import json
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col
@@ -52,3 +53,60 @@ class StructFlattener:
             df = df.select(flat_cols)
 
         return df
+
+
+class MultilineJsonReader:
+    def __init__(
+        self,
+        spark: SparkSession,
+        text_json_parser: JsonStringParser,
+        struct_flattener: StructFlattener,
+    ):
+        self.spark = (spark,)
+        self._sc = self._spark.sparkContext
+        self._text_json_parser = text_json_parser
+        self._struct_flattener = struct_flattener
+
+    def __load_text_file(self, path: str) -> str:
+        return self._spark.read.text(path, wholetext=True).collect()[0]["value"]
+
+    def load(self, path: str, flatten: bool = False):
+        text_file_content = self.__load_text_file(path=path)
+        text_str = self._text_json_parser.get(text_str=text_file_content)
+        df = self._spark.read.json(
+            self._sc.parallelize(text_str).map(lambda x: json.dumps(x))
+        )
+        if flatten:
+            return self._struct_flattener.flatten(df)
+        return df
+
+
+class DataSource:
+    def __init__(self, spark: SparkSession):
+        self._spark = spark
+
+    def read(self, path: str, file_format: str = settings.spark.RAW_FILE_TYPE):
+        match file_format.lower():
+            case "json":
+                logger.info("Reading JSON file")
+                return MultilineJsonReader(
+                    spark=self._spark,
+                    text_json_parser=JsonStringParser(),
+                    struct_flattener=StructFlattener(),
+                ).load(path=path, flatten=settings.spark.FLATTEN)
+            case "parquet":
+                logger.info("Reading Parque file")
+                return self._spark.read.format(settings.spark.RAW_FILE_TYPE).load(path)
+            case "delta":
+                logger.info("Reading Delta table")
+                return self._spark.table(path)
+            case "csv":
+                logger.info("Reading CSV file")
+                return self._spark.read.format(settings.spark.RAW_FILE_TYPE).load(
+                    path
+                )  # TODO: check if this will work since settings.py file does not have a csv format
+
+            case _:
+                msg = f"Unsupported file format: {file_format}"
+                logger.error(msg)
+                raise NotImplementedError(msg)
