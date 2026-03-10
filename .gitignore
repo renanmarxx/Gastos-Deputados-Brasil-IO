@@ -229,3 +229,6 @@ data/
 
 # Config
 scripts/config.py
+
+# Terraform files and directories
+.terraform*
