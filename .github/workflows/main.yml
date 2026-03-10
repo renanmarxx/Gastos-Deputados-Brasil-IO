@@ -77,6 +77,12 @@ jobs:
           poetry run black scripts/*.py
           poetry run black databricks/jobs/*.py
           poetry run black databricks/jobs/utils/*.py
+          poetry run black chaos/helpers/*.py
+          poetry run black chaos/helpers/logging/*.py
+          poetry run black chaos/infrastructure/*.py
+          poetry run black chaos/infrastructure/repository/*.py
+          poetry run black chaos/metadata/*.py
+          poetry run black chaos/pipelines/*.py
       
       #- name: Lint with ruff on python files
       #  run: poetry run ruff check .
