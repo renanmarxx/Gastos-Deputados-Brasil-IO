@@ -74,7 +74,7 @@ variable "pypi_libraries" {
     default = ["pyyaml", "unidecode"]
 }
 
-variable "edl_library_whl" {
+variable "datalake_library_whl" {
     default = "PENDING"
 }
 

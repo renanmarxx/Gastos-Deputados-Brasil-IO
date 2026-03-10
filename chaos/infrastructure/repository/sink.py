@@ -6,7 +6,7 @@ from pyspark.sql import Dataframe, SparkSession
 # PENDING CLASSES AND FUNCTIONS
 
 from chaos.metadata import settings
-from chaos.helpers.datalake import EDLHelper
+from chaos.helpers.datalake import DatalakeHelper
 from chaos.helpers.logging import logger
 from chaos.helpers.contracts import SchemaUtils
 from chaos.helpers.transformations import EnhanceTransformations
@@ -38,26 +38,26 @@ class DataSink:
                 logger.error(msg)
                 raise Exception(msg)
 
-    def first_load_to_edl(
-        self, df: DataFrame, delta_table_name: str, edl_path: str
+    def first_load_to_datalake(
+        self, df: DataFrame, delta_table_name: str, datalake_path: str
     ) -> None:
 
-        if EDLHelper.catalog_table_exists(self.spark, delta_table_name):
+        if DatalakeHelper.catalog_table_exists(self.spark, delta_table_name):
             return
 
         logger.info(f"Creating empty schema for {delta_table_name}")
 
-        empty_df = EDLHelper.create_empty_dataframe(self.spark, df.schema)
+        empty_df = DatalakeHelper.create_empty_dataframe(self.spark, df.schema)
         partition_cols = SchemaUtils.get_partition_columns(self.schema)
         schema_catalog_name = SchemaUtils.get_catalog_schema_full_name(self.schema)
 
-        EDLHelper.write_empty_schema(
+        DatalakeHelper.write_empty_schema(
             df=empty_df,
-            edl_table=delta_table_name,
-            schema_path=edl_path,
+            datalake_table=delta_table_name,
+            schema_path=datalake_path,
             partition_columns=partitions_cols,
         )
-        EDLHelper.alter_edl_properties(
+        DatalakeHelper.alter_datalake_properties(
             spark=self.spark,
             delta_table_name=delta_table_name,
             catalog_full_name=schema_catalog_name,
@@ -68,24 +68,24 @@ class DataSink:
         self, df: DataFrame, database: str, namespace: str = "<PENDING>"
     ) -> None:
 
-        edl_path = self.build_path(database=database)
+        datalake_path = self.build_path(database=database)
         versioned_table_name = SchemaUtils.get_versioned_table_name(self.schema)
         delta_table_name = f"{namespace}.{database}.{versioned_table_name}"
 
-        edl_df = df.drop(
+        datalake_df = df.drop(
             settings.spark.OPERATION_COLUMN_NAME, settings.spark.ORDER_COLUMN_NAME
         )
 
-        self.first_load_to_edl(
-            df=edl_df,
+        self.first_load_to_datalake(
+            df=datalake_df,
             delta_table_name=delta_table_name,
-            edl_path=edl_path,
+            datalake_path=datalake_path,
         )
 
         logger.info(f"Writing data to {database.upper()}: {delta_table_name}")
-        logger.info(f"{database.upper()} Dataframe schema: {edl_df.columns}")
+        logger.info(f"{database.upper()} Dataframe schema: {datalake_df.columns}")
 
-        edl_df.write.format("delta").mode("append").save(edl_path)
+        datalake_df.write.format("delta").mode("append").save(datalake_path)
 
         logger.info(f"Data wrote into {database.upper()} table {delta_table_name}")
 

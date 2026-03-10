@@ -74,7 +74,7 @@ resource "databricks_job" "tables_creation_job" {
             }
 
             library {
-                whl = var.edl_library_whl
+                whl = var.datalake_library_whl
             }
 
             library {
