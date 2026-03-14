@@ -1,4 +1,7 @@
+from builtins import Exception, str
 from typing import Any
+
+from pandas import DataFrame
 from delta.tables import DeltaTable
 from pyspark.sql import Dataframe, SparkSession
 
@@ -55,7 +58,7 @@ class DataSink:
             df=empty_df,
             datalake_table=delta_table_name,
             schema_path=datalake_path,
-            partition_columns=partitions_cols,
+            partition_columns=partition_cols,
         )
         DatalakeHelper.alter_datalake_properties(
             spark=self.spark,
