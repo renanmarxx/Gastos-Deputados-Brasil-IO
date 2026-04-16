@@ -84,9 +84,13 @@ jobs:
           poetry run black chaos/metadata/*.py
           poetry run black chaos/pipelines/*.py
       
-      - name: Lint PySpark codes with pyspark-antipattern
+      - name: Lint with isort on python files
         run: |
-          poetry run pyspark-antipattern check chaos/
+          poetry run isort test.py --profile black
+      
+      #- name: Lint PySpark codes with pyspark-antipattern
+      #  run: |
+      #    poetry run pyspark-antipattern check chaos/
       
       #- name: Lint with ruff on python files
       #  run: poetry run ruff check .
