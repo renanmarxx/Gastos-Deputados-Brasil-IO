@@ -86,7 +86,7 @@ jobs:
       
       - name: Lint with isort on python files
         run: |
-          poetry run isort test.py --profile black
+          poetry run isort . --profile black
       
       #- name: Lint PySpark codes with pyspark-antipattern
       #  run: |
