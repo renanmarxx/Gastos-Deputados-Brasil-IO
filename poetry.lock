@@ -570,6 +570,21 @@ files = [
 windows-terminal = ["colorama (>=0.4.6)"]
 
 [[package]]
+name = "pyspark-antipattern"
+version = "0.4.1"
+description = "A static analysis linter for PySpark — catches performance antipatterns before they reach your cluster"
+optional = false
+python-versions = ">=3.8"
+groups = ["main"]
+files = [
+    {file = "pyspark_antipattern-0.4.1-py3-none-macosx_10_12_x86_64.whl", hash = "sha256:846d08ce6bad0a5992b2be95eecfa28927a168c316e5aaac47726a9996b2f52c"},
+    {file = "pyspark_antipattern-0.4.1-py3-none-macosx_11_0_arm64.whl", hash = "sha256:2e278cdd89b0416df34adeda46dab93dd8b06e1f4d597afd1daa2acf8e9f7b92"},
+    {file = "pyspark_antipattern-0.4.1-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:f83d4f9d55d47450fd2ec2e1bc4b750a259a3db88afa212bb1041d56c26cc8fb"},
+    {file = "pyspark_antipattern-0.4.1-py3-none-manylinux_2_28_aarch64.whl", hash = "sha256:6532d143755c61c19138fdf030618b10835d7d5c0f9b976ba2e579cf2f0c3ad7"},
+    {file = "pyspark_antipattern-0.4.1-py3-none-win_amd64.whl", hash = "sha256:52df2fb0b06af2550bb228ec2df251c6a0220be06dcbe5d6c83b8a82125255fb"},
+]
+
+[[package]]
 name = "pytest"
 version = "9.0.2"
 description = "pytest: simple powerful testing with Python"
@@ -747,4 +762,4 @@ zstd = ["zstandard (>=0.18.0)"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.12"
-content-hash = "2e7cf15a43e788017abef8579ef19a8d2b6134b847ed5cc067a9fcd451c4cd66"
+content-hash = "a6462e8e9c624f604f6063da7b03a0adcf1b864e0b75e6b7683aa6c11f777ff2"
