@@ -1,16 +1,16 @@
 import sys
-from os.path import dirname, abspath
-from inspect import getfile, currentframe
+from inspect import currentframe, getfile
+from os.path import abspath, dirname
 
 if (frame := currentframe()) is not None:
     sys.path.append(dirname(dirname(dirname(abspath(getfile(frame))))))
 
 # PENDING CLASSES AND FUNCTIONS
 
-from chaos.helpers.logging import logger
 from chaos.helpers.contracts import ViewUtils
-from chaos.metadata.settings import AWSSettings
 from chaos.helpers.databricks import DatabricksHelper
+from chaos.helpers.logging import logger
+from chaos.metadata.settings import AWSSettings
 
 
 def main(data_contract_name: str, environment: str):

@@ -1,4 +1,5 @@
-from pyspark.sql.types import StructType, StructField, StringType, IntegerType
+from pyspark.sql.types import IntegerType, StringType, StructField, StructType
+
 
 def test_flatten(spark):
     schema = StructType(

@@ -4,9 +4,10 @@ import io
 import json
 import os
 import shutil
-from typing import Any, Dict, Iterator, Optional, BinaryIO
+from typing import Any, BinaryIO, Dict, Iterator, Optional
 from urllib.parse import urlencode, urljoin
 from urllib.request import Request, urlopen
+
 
 class BrasilIO:
 

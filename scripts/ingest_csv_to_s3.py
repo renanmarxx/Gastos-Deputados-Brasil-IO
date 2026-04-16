@@ -1,12 +1,13 @@
 import os
-import sys
-import boto3
-from io import BytesIO
 import shutil
+import sys
 from datetime import date
+from io import BytesIO
 from typing import Optional
+
+import boto3
 from brasil_io import BrasilIO
-from config import S3_BUCKET, S3_PREFIX, BRASIL_IO_TOKEN
+from config import BRASIL_IO_TOKEN, S3_BUCKET, S3_PREFIX
 
 
 def ingest_brasil_io_to_s3(

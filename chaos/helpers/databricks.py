@@ -1,5 +1,5 @@
 from argparse import ArgumentParser
-from builtins import Exception, dict, getattr, hasattr, list, staticmethod, str, bool
+from builtins import Exception, bool, dict, getattr, hasattr, list, staticmethod, str
 
 from chaos.helpers.logging import logger
 

@@ -1,8 +1,8 @@
-import utils.functions as f
 from datetime import datetime
-import utils.paths as paths
-import requests
 
+import requests
+import utils.functions as f
+import utils.paths as paths
 
 dbutils.widgets.text("process_date", "")
 process_date = dbutils.widgets.get("process_date")
