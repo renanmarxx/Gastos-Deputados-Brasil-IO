@@ -15,7 +15,6 @@ from chaos.metadata.settings import AWSSettings
 # PENDING CLASSES AND FUNCTIONS
 
 
-
 def main(data_contract_names: list[str], environment: str, landing_path: str):
     transfer_map = []
 

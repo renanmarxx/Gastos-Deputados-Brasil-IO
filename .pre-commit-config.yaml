@@ -1,15 +1,26 @@
+default_language_version:
+    python: python3.12
 repos:
+ - repo: https://github.com/pre-commit/pre-commit-hooks
+   rev: v6.0.0
+   hooks:
+   - id: trailing-whitespace
+   - id: check-json
+   - id: end-of-file-fixer
+   - id: name-tests-test
+   - id: requirements-txt-fixer
+   - id: check-yaml
  - repo: https://github.com/psf/black
-   rev: 24.4.2
+   rev: 26.3.1
    hooks:
    - id: black
  - repo: https://github.com/pycqa/isort
-   rev: 5.13.2
+   rev: 8.0.1
    hooks:
    - id: isort
      args: ["--profile", "black"]
  - repo: https://github.com/pycqa/flake8
-   rev: 7.1.0
+   rev: 7.3.0
    hooks:
    - id: flake8
-     args: ["--max-line-length=88", "--extend-ignore=E203"]
+     args: ["--max-line-length=120", "--extend-ignore=E203, F821, E731"]

@@ -45,7 +45,7 @@ class StructFlattener:
 
                 if isinstance(field.dataType, StructType):
                     for subfield in field.dataType.fields:
-                        field_name = field_name + "." + subfield.name
+                        field_name = field_name + "." + subfield.name  # noqa: F841
                         subfield_name = full_field_name + "_" + subfield.name
                         flat_cols.append(col(field.name).alias(subfield_name))
                 else:

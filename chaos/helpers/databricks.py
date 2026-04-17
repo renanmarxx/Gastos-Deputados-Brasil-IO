@@ -84,10 +84,12 @@ class DatabricksHelper:
         Retrieves the parameters passed to the script when executed as a Databricks job.
 
         Args:
-            expected_job_params (list, optional): A list of expected parameter names. Default is ["environment", "data_contracts"].
+            expected_job_params (list, optional): A list of expected parameter names.
+            Default is ["environment", "data_contracts"].
 
         Returns:
-            dict[str, str] | list[str]: A dictionary of parameter names and their corresponding values if all expected parameters are present, otherwise a list of missing parameter names.
+            dict[str, str] | list[str]: A dictionary of parameter names and their corresponding values
+                if all expected parameters are present, otherwise a list of missing parameter names.
 
         Raises:
             Exception: If any of the expected parameters are not found in the job run.
