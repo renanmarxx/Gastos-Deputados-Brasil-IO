@@ -1,6 +1,3 @@
-import csv
-import gzip
-import io
 import json
 import os
 import shutil
@@ -83,7 +80,8 @@ class BrasilIO:
 
     def download(self, dataset: str, TABLE_NAME: str) -> BinaryIO:
         """
-        Downloads the dataset file on .csv format and returns a binary object with its content.
+        Downloads the dataset file on .csv format
+        and returns a binary object with its content.
 
         Args:
             dataset: dataset slug.
@@ -110,7 +108,8 @@ if __name__ == "__main__":
     # Connects to the API:
     response = API.download(DATASET_SLUG, TABLE_NAME)
 
-    # Check if `data/` folder exists, if so cleans the entire directory. Otherwise, it will create a new folder:
+    # Check if `data/` folder exists, if so cleans the entire directory.
+    # Otherwise, it will create a new folder:
     if os.path.exists("data"):
         shutil.rmtree("data")
     os.makedirs("data", exist_ok=True)

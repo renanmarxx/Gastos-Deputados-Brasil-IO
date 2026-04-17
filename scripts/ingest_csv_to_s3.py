@@ -1,6 +1,5 @@
 import os
 import shutil
-import sys
 from datetime import date
 from io import BytesIO
 from typing import Optional
