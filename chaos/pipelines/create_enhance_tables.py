@@ -16,13 +16,12 @@ from chaos.metadata.settings import AWSSettings
 # PENDING CLASSES AND FUNCTIONS
 
 
-
 def main(data_contract_name: str, environment: str):
 
-    data_contract = DataContractReader.from_s3_bucket(
+    data_contract = DataContractReader.from_s3_bucket(  # noqa: F401
         bucket_name=AWSSettings.DATA_CONTRACTS_BUCKET[environment],
         data_contract=data_contract_name,
-        aws_utils=DatabricksAWSUtils(),
+        aws_utils=DatabricksAWSUtils(),  # noqa: F401
     )
 
     raw_dataset = data_contract.datasets.raw.environment_info[environment]
@@ -37,8 +36,8 @@ def main(data_contract_name: str, environment: str):
 
     enhance_tables = [
         EnhanceTable(
-            dbutils=dbutils,
-            spark=spark,
+            dbutils=dbutils,  # noqa: F401
+            spark=spark,  # noqa: F401
             schema=schema,
             raw_catalog_info=raw_dataset,
             enhance_catalog_info=enhance_dataset,

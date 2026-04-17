@@ -1,27 +1,26 @@
 from builtins import Exception, str
-from typing import Any
+from typing import Any  # noqa: F401
 
-from delta.tables import DeltaTable
+from delta.tables import DeltaTable  # noqa: F401
 from pandas import DataFrame
-from pyspark.sql import Dataframe, SparkSession
+from pyspark.sql import Dataframe, SparkSession  # noqa: F401
 
 from chaos.helpers.contracts import SchemaUtils
 from chaos.helpers.datalake import DatalakeHelper
 from chaos.helpers.logging import logger
-from chaos.helpers.transformations import EnhanceTransformations
+from chaos.helpers.transformations import EnhanceTransformations  # noqa: F401
 from chaos.metadata import settings
 
 # PENDING CLASSES AND FUNCTIONS
 # PENDING CLASSES AND FUNCTIONS
 
 
-
 class DataSink:
     def __init__(
         self,
         spark: SparkSession,
-        schema: DataContractSchema,
-        catalog_dataset: CatalogDatasetInfo,
+        schema: DataContractSchema,  # noqa: F821
+        catalog_dataset: CatalogDatasetInfo,  # noqa: F821
     ) -> None:
         self.spark = spark
         self.schema = schema

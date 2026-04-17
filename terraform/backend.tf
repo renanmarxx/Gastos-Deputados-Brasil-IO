@@ -24,6 +24,6 @@ terraform {
 
         #This will be used as a folder in which to store your state file.
         workspace_key_prefix = "<PENDING>"
-        
+
     }
 }

@@ -101,4 +101,3 @@ resource "databricks_job" "tables_creation_job" {
         deployed_by = "terraform"
     }
 }
-

@@ -28,10 +28,10 @@ jobs:
       - name: Configure AWS Credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v5
         with:
-          role-to-assume: arn:aws:iam::535942231592:role/GitHub_Actions_Personal # altere para a ARN da sua IAM role
+          role-to-assume: arn:aws:iam::535942231592:role/GitHub_Actions_Personal
           role-session-name: GitHub_to_AWS_via_FederatedOIDC
           aws-region: ${{ env.AWS_REGION }}
-      
+
       - name: Use credentials directly
         run: |
           export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
@@ -67,7 +67,7 @@ jobs:
       - name: Install dependencies (Poetry)
         run: |
           poetry install --no-interaction --no-ansi --no-root
-      
+
       - name: Activating Poetry Shell (virtual environment)
         run: |
           poetry env activate
@@ -76,9 +76,9 @@ jobs:
         env:
           BRASIL_IO_TOKEN: ${{ secrets.BRASIL_IO_TOKEN }}
         run: |
-          poetry run python scripts/ingest_csv_to_s3.py 
+          poetry run python scripts/ingest_csv_to_s3.py
 
-      - name: Upload to S3 
+      - name: Upload to S3
         run: |
           aws s3 cp data/gastos-deputados_cota_parlamentar.csv ${{ secrets.LANDING_BUCKET_INGESTION }}
 
