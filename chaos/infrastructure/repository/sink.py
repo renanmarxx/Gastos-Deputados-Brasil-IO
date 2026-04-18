@@ -28,9 +28,7 @@ class DataSink:
 
     def build_path(self, database: str) -> str:
         schema_environment = SchemaUtils.get_catalog_schema_environment(self.schema)
-        base_path = (
-            f"{self.catalog_dataset.s3_bucket_name}{{separator}}{schema_environment}"
-        )
+        base_path = f"{self.catalog_dataset.s3_bucket_name}{{separator}}{schema_environment}"
         match database:
             case "<PENDING>":
                 return base_path.format(separator="/")
@@ -41,9 +39,7 @@ class DataSink:
                 logger.error(msg)
                 raise Exception(msg)
 
-    def first_load_to_datalake(
-        self, df: DataFrame, delta_table_name: str, datalake_path: str
-    ) -> None:
+    def first_load_to_datalake(self, df: DataFrame, delta_table_name: str, datalake_path: str) -> None:
 
         if DatalakeHelper.catalog_table_exists(self.spark, delta_table_name):
             return
@@ -67,17 +63,13 @@ class DataSink:
             dataset_environment=self.catalog_datset.environment_name,
         )
 
-    def append_data(
-        self, df: DataFrame, database: str, namespace: str = "<PENDING>"
-    ) -> None:
+    def append_data(self, df: DataFrame, database: str, namespace: str = "<PENDING>") -> None:
 
         datalake_path = self.build_path(database=database)
         versioned_table_name = SchemaUtils.get_versioned_table_name(self.schema)
         delta_table_name = f"{namespace}.{database}.{versioned_table_name}"
 
-        datalake_df = df.drop(
-            settings.spark.OPERATION_COLUMN_NAME, settings.spark.ORDER_COLUMN_NAME
-        )
+        datalake_df = df.drop(settings.spark.OPERATION_COLUMN_NAME, settings.spark.ORDER_COLUMN_NAME)
 
         self.first_load_to_datalake(
             df=datalake_df,

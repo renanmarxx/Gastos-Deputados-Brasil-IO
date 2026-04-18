@@ -7,9 +7,7 @@ from chaos.helpers.logging.handlers import ConsoleHandler
 class Logger:
 
     @staticmethod
-    def _set_logger(
-        name: str, handlers: list[logging.Handler], level: int = logging.DEBUG
-    ):
+    def _set_logger(name: str, handlers: list[logging.Handler], level: int = logging.DEBUG):
         logger = logging.getLogger(name)
         logger.setLevel(level)
         if logger.hasHandlers():
@@ -21,11 +19,7 @@ class Logger:
     def get(self, logger=LoggerConfig):
         logger = self._set_logger(
             name=logger.name,
-            handlers=[
-                ConsoleHandler().create(
-                    formatter=logging.Formatter(fmt=logger.format), level=logger.level
-                )
-            ],
+            handlers=[ConsoleHandler().create(formatter=logging.Formatter(fmt=logger.format), level=logger.level)],
             level=logger.level,
         )
         return logger
