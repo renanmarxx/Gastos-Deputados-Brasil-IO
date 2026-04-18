@@ -32,9 +32,7 @@ def ingest_brasil_io_to_s3(
     # Validate Brasil.io token
     token = brasil_io_token or os.environ.get("BRASIL_IO_TOKEN")
     if not token or token == "":
-        raise SystemExit(
-            "ERROR: set BRASIL_IO_TOKEN (environment variable or config.py)"
-        )
+        raise SystemExit("ERROR: set BRASIL_IO_TOKEN (environment variable or config.py)")
 
     # Validate S3 bucket
     if not s3_bucket or s3_bucket == "meu-bucket-exemplo":

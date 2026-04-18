@@ -25,9 +25,7 @@ class BrasilIO:
         data.update({"Authorization": f"Token {self.__auth_token}"})
         return data
 
-    def api_request(
-        self, path: str, query_string: Optional[Dict[str, Any]] = None
-    ) -> Dict[str, Any]:
+    def api_request(self, path: str, query_string: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         """
         Request to Brasil.io API and returns a JSON dictionary.
 

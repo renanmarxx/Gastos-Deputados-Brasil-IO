@@ -74,9 +74,7 @@ class MultilineJsonReader:
     def load(self, path: str, flatten: bool = False):
         text_file_content = self.__load_text_file(path=path)
         text_str = self._text_json_parser.get(text_str=text_file_content)
-        df = self._spark.read.json(
-            self._sc.parallelize(text_str).map(lambda x: json.dumps(x))
-        )
+        df = self._spark.read.json(self._sc.parallelize(text_str).map(lambda x: json.dumps(x)))
         if flatten:
             return self._struct_flattener.flatten(df)
         return df
