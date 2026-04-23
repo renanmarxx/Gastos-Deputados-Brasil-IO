@@ -6,6 +6,8 @@ from typing import Optional
 
 import boto3
 from brasil_io import BrasilIO
+
+from chaos.helpers.logging import logger
 from config import BRASIL_IO_TOKEN, S3_BUCKET, S3_PREFIX
 
 
@@ -50,10 +52,10 @@ def ingest_brasil_io_to_s3(
     out_path = os.path.join("data", f"{dataset_slug}_{table_name}.csv")
     with open(out_path, mode="wb") as fobj:
         fobj.write(csv_content)
-    print(f"\nFile stored successfully at: {out_path}")
+    logger.info(f"\nFile stored successfully at: {out_path}")
 
     # Uploading .csv file to the S3 Bucket
-    print("\n>>> Starting S3 Bucket upload...")
+    logger.info("\nStarting S3 Bucket upload...")
 
     try:
         csv_bytes = BytesIO(csv_content)
@@ -64,9 +66,10 @@ def ingest_brasil_io_to_s3(
         key = f"{s3_prefix}/dt={today}/{dataset_slug}_{table_name}.csv"
 
         s3.upload_fileobj(csv_bytes, s3_bucket, key)
-        print(f"Successful upload to the S3 Bucket: s3://{s3_bucket}/{key}")
+        logger.info(f"Successful upload to the S3 Bucket: s3://{s3_bucket}/{key}")
+
     except Exception as e:
-        print(f"Error uploading to the S3 Bucket: {type(e).__name__}: {e}")
+        logger.error(f"Error uploading to the S3 Bucket: {type(e).__name__}: {e}")
         raise
 
 
