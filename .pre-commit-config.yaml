@@ -23,5 +23,16 @@ repos:
           - --fix
           - --line-length=120
           - --ignore=F821,E731
-
       - id: ruff-format
+
+  - repo: https://github.com/antonbabenko/pre-commit-terraform
+    rev: v1.105.0
+    hooks:
+      - id: terraform_fmt
+      - id: terraform_validate
+      - id: terraform_tflint
+
+  - repo: https://github.com/bridgecrewio/checkov
+    rev: 3.2.528
+    hooks:
+      - id: checkov

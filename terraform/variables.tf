@@ -1,6 +1,10 @@
 # CI run
-variable "environment" {}
-variable "workspace_path" {}
-variable "databricks_token" {}
-
-variable "component" { default = "<PENDING>" }
+variable "environment" {
+  type = string
+}
+variable "workspace_path" {
+  type = string
+}
+variable "databricks_token" {
+  type = string
+}
