@@ -9,7 +9,8 @@ variable "environment" {
 # Job Cluster
 #-----------------------
 variable "policy_id" {
-  type = string
+  type    = string
+  default = null
 }
 
 variable "max_workers" {

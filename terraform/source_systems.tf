@@ -1,6 +1,8 @@
 module "gastos_deputados" {
   source = "./modules/source_system_job"
 
+  policy_id = "var.policy_id"
+
   country        = "brazil"
   system         = "brasil_io"
   environment    = var.environment
