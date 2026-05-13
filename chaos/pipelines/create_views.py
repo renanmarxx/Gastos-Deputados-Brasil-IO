@@ -19,7 +19,9 @@ def main(data_contract_name: str, environment: str):
         data_contract=data_contract_name,
         aws_utils=DatabricksAWSUtils(),
     )
-    data_contract = ViewUtils.include_datalake_source_property(data_contract, environment)
+    data_contract = ViewUtils.include_datalake_source_property(
+        data_contract, environment
+    )
 
     for view in data_contract.views:
         logger.info(f"Creating view query: {view.name}")

@@ -12,7 +12,11 @@ if not process_date:
 
 process_date_str = str(process_date)
 
-input_path = paths.CSV_FILE_PUBLIC_PATH_LEFT + process_date_str + paths.CSV_FILE_PUBLIC_PATH_RIGHT
+input_path = (
+    paths.CSV_FILE_PUBLIC_PATH_LEFT
+    + process_date_str
+    + paths.CSV_FILE_PUBLIC_PATH_RIGHT
+)
 
 dbfs_path = "/dbfs/tmp/gastos-deputados_cota_parlamentar.csv"
 
@@ -25,6 +29,13 @@ dbutils.fs.put(dbfs_path, response.text, overwrite=True)
 # Read with Spark
 df = spark.read.csv(dbfs_path, header=True)
 
-df = df.withColumn("process_date", f.lit(process_date)).withColumn("ingestion_ts", f.current_timestamp())
+df = df.withColumn("process_date", f.lit(process_date)).withColumn(
+    "ingestion_ts", f.current_timestamp()
+)
 
-(df.write.mode("overwrite").partitionBy("process_date").format("delta").saveAsTable("bronze.dataset_x"))
+(
+    df.write.mode("overwrite")
+    .partitionBy("process_date")
+    .format("delta")
+    .saveAsTable("bronze.dataset_x")
+)

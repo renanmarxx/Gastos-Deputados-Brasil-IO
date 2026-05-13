@@ -25,4 +25,6 @@ def test_flatten(spark):
 
     expected_columns = ["id", "info_name", "info_age"]
 
-    assert flattened_df.columns == expected_columns, "The Dataframe was not flattened correctly."
+    assert flattened_df.columns == expected_columns, (
+        "The Dataframe was not flattened correctly."
+    )

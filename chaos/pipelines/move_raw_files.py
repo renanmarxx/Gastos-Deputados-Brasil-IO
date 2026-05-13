@@ -26,7 +26,9 @@ def main(data_contract_names: list[str], environment: str, landing_path: str):
         )
 
         raw_dataset = data_contract.datasets.raw.environment_info[environment]
-        raw_dataset = CatalogDatasetUtils.adjust_s3_bucket_path(raw_dataset, is_enhance=False)
+        raw_dataset = CatalogDatasetUtils.adjust_s3_bucket_path(
+            raw_dataset, is_enhance=False
+        )
 
         for schema in data_contract.schemas:
             landing_table_dir = "/".join(
@@ -36,7 +38,9 @@ def main(data_contract_names: list[str], environment: str, landing_path: str):
                     schema.source_info.table,
                 ]
             )
-            if not DatabricksHelper.directory_exists(dbutils=dbutils, dir_path=landing_table_dir):
+            if not DatabricksHelper.directory_exists(
+                dbutils=dbutils, dir_path=landing_table_dir
+            ):
                 continue
 
             transfer_map.extend(
@@ -61,7 +65,9 @@ def main(data_contract_names: list[str], environment: str, landing_path: str):
                 ]
             )
 
-    table_move = lambda item: DatabricksHelper.move_file(dbutils, item[0], item[1], False)
+    table_move = lambda item: DatabricksHelper.move_file(
+        dbutils, item[0], item[1], False
+    )
 
     pool = ThreadPool(10)
     mapped = pool.map_async(table_move, transfer_map)
@@ -69,7 +75,9 @@ def main(data_contract_names: list[str], environment: str, landing_path: str):
 
 
 if __name__ == "__main__":
-    run_params = DatabricksHelper.get_script_run_parameters(["environment", "data_contracts", "landing_path"])
+    run_params = DatabricksHelper.get_script_run_parameters(
+        ["environment", "data_contracts", "landing_path"]
+    )
 
     data_contracts = run_params.get("data_contracts")
     environment = run_params.get("environment")

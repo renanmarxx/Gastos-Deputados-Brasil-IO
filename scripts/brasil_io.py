@@ -7,7 +7,6 @@ from urllib.request import Request, urlopen
 
 
 class BrasilIO:
-
     BASE_URL = "https://api.brasil.io/v1/"
 
     def __init__(self, auth_token: str) -> None:
@@ -25,7 +24,9 @@ class BrasilIO:
         data.update({"Authorization": f"Token {self.__auth_token}"})
         return data
 
-    def api_request(self, path: str, query_string: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+    def api_request(
+        self, path: str, query_string: Optional[Dict[str, Any]] = None
+    ) -> Dict[str, Any]:
         """
         Request to Brasil.io API and returns a JSON dictionary.
 

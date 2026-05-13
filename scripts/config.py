@@ -28,4 +28,6 @@ BRASIL_IO_TOKEN: str = os.environ.get("BRASIL_IO_TOKEN", "meu-api-token")
 # Delta table name where data will be stored
 # Pattern: reads from AWS_S3_BUCKET environment variable;
 # if it does not exists, use 'bronze.brasil_io_gastos_deputados'
-DELTA_TABLE: str = os.environ.get("BRASIL_IO_TOKEN", "bronze.brasil_io_gastos_deputados")
+DELTA_TABLE: str = os.environ.get(
+    "BRASIL_IO_TOKEN", "bronze.brasil_io_gastos_deputados"
+)
