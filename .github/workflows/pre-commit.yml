@@ -39,19 +39,22 @@ jobs:
         uses: hashicorp/setup-terraform@v3
 
       - name: Terraform Init
-        run: terraform init -backend=false
+        run:  terraform init -backend=false
 
       - name: Terraform Validate
-        run: terraform validate
+        run:  terraform validate
 
       - name: Setup TFLint
-        run: terraform-linters/setup-tflint@v4
+        run:  terraform-linters/setup-tflint@v4
+
+      - name: Check TFLint version
+        run:  tflint --version
 
       - name: Init TFLint
-        run: tflint --init
+        run:  tflint --init
 
       - name: Install pre-commit
-        run: pip install pre-commit
+        run:  pip install pre-commit
 
       - name: Run pre-commit
-        run: pre-commit run --all-files --show-diff-on-failure
+        run:  pre-commit run --all-files --show-diff-on-failure
