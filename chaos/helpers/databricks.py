@@ -6,7 +6,9 @@ from chaos.helpers.logging import logger
 
 class DatabricksHelper:
     @staticmethod
-    def move_file(dbutils, from_path: str, to_path: str, recursive: bool = False) -> bool:
+    def move_file(
+        dbutils, from_path: str, to_path: str, recursive: bool = False
+    ) -> bool:
         """
         Moves a file form the source path to the destination path.
 
@@ -19,7 +21,9 @@ class DatabricksHelper:
         Returns:
             bool: True if the file was moved successfully, False otherwise.
         """
-        logger.info(f"Moving file from {from_path} to {to_path} (recursive={recursive})")
+        logger.info(
+            f"Moving file from {from_path} to {to_path} (recursive={recursive})"
+        )
         return dbutils.fs.mv(from_path, to_path, recursive)
 
     @staticmethod
@@ -74,7 +78,7 @@ class DatabricksHelper:
 
     @staticmethod
     def get_script_run_parameters(
-        expected_job_params: list = ["environment", "data_contracts"]
+        expected_job_params: list = ["environment", "data_contracts"],
     ) -> dict[str, str] | list[str]:
         """
         Retrieves the parameters passed to the script when executed as a Databricks job.
@@ -113,7 +117,9 @@ class DatabricksHelper:
         args = parser.parse_args()
 
         job_params = {
-            param_name: getattr(args, param_name) for param_name in expected_job_params if hasattr(args, param_name)
+            param_name: getattr(args, param_name)
+            for param_name in expected_job_params
+            if hasattr(args, param_name)
         }
 
         logger.info(f"Retrieved job parameters: {job_params}")

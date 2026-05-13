@@ -2,7 +2,6 @@ import logging
 
 
 class ConsoleHandler:
-
     @staticmethod
     def create(formatter: logging.Formatter, level: logging = logging.DEBUG):
         console_handler = logging.StreamHandler()

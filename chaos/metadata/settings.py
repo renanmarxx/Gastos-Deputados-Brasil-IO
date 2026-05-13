@@ -1,5 +1,4 @@
 class SparkSettings:
-
     RAW_FILE_TYPE: str = "csv"
 
     FLATTEN: bool = False

@@ -25,10 +25,14 @@ def main(data_contract_name: str, environment: str):
     )
 
     raw_dataset = data_contract.datasets.raw.environment_info[environment]
-    raw_dataset = CatalogDatasetUtils.adjust_s3_bucket_path(raw_dataset, is_enhance=False)
+    raw_dataset = CatalogDatasetUtils.adjust_s3_bucket_path(
+        raw_dataset, is_enhance=False
+    )
 
     enhance_dataset = data_contract.datasets.enhance.environment_info[environment]
-    enhance_dataset = CatalogDatasetUtils.adjust_s3_bucket_path(enhance_dataset, is_enhance=True)
+    enhance_dataset = CatalogDatasetUtils.adjust_s3_bucket_path(
+        enhance_dataset, is_enhance=True
+    )
 
     enhance_tables = [
         EnhanceTable(
