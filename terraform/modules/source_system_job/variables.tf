@@ -9,7 +9,7 @@ variable "environment" {
 # Job Cluster
 #-----------------------
 variable "policy_id" {
-  type = number
+  type = string
 }
 
 variable "max_workers" {
@@ -39,7 +39,7 @@ variable "spark_env_vars" {
 
 variable "cluster_driver" {
   type    = string
-  default = "PENDING"
+  default = null
 }
 
 variable "runtime_engine" {
@@ -94,12 +94,12 @@ variable "pypi_libraries" {
 
 variable "datalake_library_whl" {
   type    = string
-  default = "PENDING"
+  default = null
 }
 
 variable "data_contracts_library_whl" {
   type    = string
-  default = "PENDING"
+  default = null
 }
 
 variable "notebook_source" {
@@ -118,18 +118,24 @@ variable "workflow_name" {
 }
 
 variable "workflow_tasks" {
-  type = list(any)
+  type = list(object({
+    name             = string
+    depends_on       = list(string)
+    entrypoint_file  = string
+    extra_parameters = list(string)
+  }))
+
   default = [
     {
-      name             = "MOVE_RAW_FILES",
-      depends_on       = [],
-      entrypoint_file  = "move_raw_files.py",
+      name             = "MOVE_RAW_FILES"
+      depends_on       = []
+      entrypoint_file  = "move_raw_files.py"
       extra_parameters = []
     },
     {
-      name             = "CREATE_ENHANCE_TABLE",
-      depends_on       = ["MOVE_RAW_FILES"],
-      entrypoint_file  = "create_enhance_tables.py",
+      name             = "CREATE_ENHANCE_TABLE"
+      depends_on       = ["MOVE_RAW_FILES"]
+      entrypoint_file  = "create_enhance_tables.py"
       extra_parameters = []
     }
   ]
@@ -179,12 +185,12 @@ variable "data_contract" { type = string }
 
 variable "framework" {
   type    = string
-  default = "PENDING"
+  default = null
 }
 
 variable "entrypoints_dir" {
   type    = string
-  default = "PENDING"
+  default = null
 }
 
 variable "developers_email" {
