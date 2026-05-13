@@ -1,5 +1,7 @@
 name: Main Data Pipeline
 
+# checkov:skip=CKV_GHA_7: process_date input is required for controlled ingestion backfills
+
 on:
   push:
     branches:
@@ -13,6 +15,7 @@ on:
 
 env:
   AWS_REGION: us-east-1
+  PYTHON_VERSION: "3.12"
 
 permissions:
   id-token: write
@@ -27,6 +30,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
+    defaults:
+      run:
+        shell: bash
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -39,46 +46,76 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Validate AWS identity
-        run: aws sts get-caller-identity
+        run: |
+          set -euo pipefail
+          aws sts get-caller-identity
+
+      - name: Validate process_date input
+        if: ${{ github.event.inputs.process_date != '' }}
+        run: |
+          set -euo pipefail
+
+          PROCESS_DATE="${{ github.event.inputs.process_date }}"
+
+          if [[ ! "$PROCESS_DATE" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then
+            echo "Invalid process_date format. Expected YYYY-MM-DD"
+            exit 1
+          fi
+
+          echo "Validated process_date: $PROCESS_DATE"
 
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
-          cache: "pip"
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
 
       - name: Install Poetry
-        run: pip install poetry
+        run: |
+          set -euo pipefail
+
+          python -m pip install --upgrade pip
+          pip install poetry
 
       - name: Configure Poetry
-        run: poetry config virtualenvs.in-project true
+        run: |
+          set -euo pipefail
+
+          poetry config virtualenvs.in-project true
 
       - name: Cache Poetry virtualenv
         uses: actions/cache@v4
         with:
-          path: .venv
-          key: venv-${{ runner.os }}-${{ hashFiles('poetry.lock') }}
+          path: |
+            .venv
+            ~/.cache/pypoetry
+          key: poetry-${{ runner.os }}-${{ hashFiles('poetry.lock') }}
 
       - name: Install dependencies
-        run: poetry install --no-interaction --no-root
+        run: |
+          set -euo pipefail
+
+          poetry install --no-interaction --no-root
 
       - name: Generate CSV
         env:
           BRASIL_IO_TOKEN: ${{ secrets.BRASIL_IO_TOKEN }}
+          PROCESS_DATE: ${{ github.event.inputs.process_date }}
         run: |
+          set -euo pipefail
+
           poetry run python scripts/ingest_csv_to_s3.py
 
       - name: Upload file to S3
         run: |
+          set -euo pipefail
+
+          PROCESS_DATE="${{ github.event.inputs.process_date }}"
+
+          if [[ -z "$PROCESS_DATE" ]]; then
+            PROCESS_DATE=$(date +%F)
+          fi
+
           aws s3 cp \
             data/gastos-deputados_cota_parlamentar.csv \
-            ${{ secrets.LANDING_BUCKET_INGESTION }}/raw/$(date +%F)/
-
-      - name: Trigger Databricks Job
-        run: |
-          curl -X POST "${{ secrets.DATABRICKS_WORKSPACE_URL }}/api/2.1/jobs/run-now" \
-            -H "Authorization: Bearer ${{ secrets.DATABRICKS_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            -d "{
-              \"job_id\": \"${{ secrets.DATABRICKS_JOB_ID }}\"
-            }"
+            ${{ secrets.LANDING_BUCKET_INGESTION }}/raw/$PROCESS_DATE/
