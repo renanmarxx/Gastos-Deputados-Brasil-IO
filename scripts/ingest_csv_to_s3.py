@@ -71,9 +71,9 @@ def ingest_brasil_io_to_s3(
         s3.upload_fileobj(csv_bytes, s3_bucket, key)
         logger.info("Successful upload to the S3 Bucket: s3://%s/%s", s3_bucket, key)
 
-        if os.path.exists(out_path):
-            os.remove(out_path)
-            logger.info("Local CSV file removed: %s", out_path)
+        # if os.path.exists(out_path):
+        #    os.remove(out_path)
+        #    logger.info("Local CSV file removed: %s", out_path)
 
     except Exception as e:
         logger.error(
