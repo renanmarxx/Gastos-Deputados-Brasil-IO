@@ -5,6 +5,8 @@ from typing import Any, BinaryIO, Dict, Iterator, Optional
 from urllib.parse import urlencode, urljoin
 from urllib.request import Request, urlopen
 
+from helpers.logging import logger
+
 
 class BrasilIO:
     BASE_URL = "https://api.brasil.io/v1/"
@@ -127,4 +129,4 @@ if __name__ == "__main__":
                 break
             fobj.write(chunk)
 
-    print(f"File stored succesfuly at: {out_path}")
+    logger.info(f"File stored succesfuly at: {out_path}")
