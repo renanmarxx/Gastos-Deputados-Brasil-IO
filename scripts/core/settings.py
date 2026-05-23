@@ -24,14 +24,23 @@ class DatabricksSettings:
         "prod": "YOUR-PROD-DATABRICKS-SECRET-SCOPE",
     }
 
+    BRONZE_DELTA_TABLE_NAME: str = "bronze.brasil_io_gastos_deputados"
+
+    SILVER_DELTA_TABLE_NAME: str = "silver.brasil_io_gastos_deputados"
+
+    GOLD_DELTA_TABLE_NAME: str = "gold.brasil_io_gastos_deputados"
+
 
 class AWSSettings:
     DEFAULT_REGION: str = "sa-east-1"
+
     ACCOUNT_ROLE: str = "databricks/<YOUR-ACCOUNT-ROLE>"  # TODO: Check on the Databricks context how to get the account role name and update here
+
     ACCOUNT_NUMBER: dict[str, str] = {
         "dev": "YOUR-DEV-AWS-ACCOUNT-NUMBER",
         "prod": "YOUR-PROD-AWS-ACCOUNT-NUMBER",
     }
+
     DATA_CONTRACTS_BUCKET: dict[
         str, str
     ] = {  # TODO: Implement a Data Contract method to store the .yaml file
@@ -39,8 +48,28 @@ class AWSSettings:
         "prod": "YOUR-PROD-DATA-CONTRACTS-BUCKET",
     }
 
+    # Main S3 Bucket where data will be stored
+    S3_BUCKET: str = "renan-marx-data-engineering-projects"
+
+    # Landbucket S3 prefix where raw data from Brasil.io will be stored
+    S3_PREFIX: str = (
+        "gastos-deputados-brasil-io/landing-bucket-gastos-deputados-brasil-io"
+    )
+
+
+class BrasilIOConfig:
+    # Brasil.io API Token
+    BRASIL_IO_TOKEN: str = "meu-api-token"
+
+    # Dataset Slug
+    DATASET_SLUG: str = "gastos-deputados"
+
+    # Table Name
+    TABLE_NAME: str = "cota_parlamentar"
+
 
 class Settings:
     aws = AWSSettings()
     spark = SparkSettings()
     databricks = DatabricksSettings()
+    brasil_io = BrasilIOConfig()

@@ -1,0 +1,166 @@
+project: gastos_deputados
+source: Brasil IO
+dataset: cota_parlamentar
+description: "Gastos parlamentares registrados na Câmara dos Deputados"
+reference_link: "https://brasil.io/dataset/gastos-deputados/cota_parlamentar/"
+schema_info:
+  - schema_name: cota_parlamentar
+  - table_name: cota_parlamentar
+  - version: 1.0.0
+  - fields:
+      - name: numano
+      - description: 'Ano'
+      - datatype: integer
+      - primary_key: false
+      - nullable: true
+      - name: nummes
+      - description: 'Mês'
+      - datatype: integer
+      - primary_key: false
+      - nullable: true
+      - name: datemissao
+      - description: 'Data de Emissão'
+      - datatype: datetime
+      - primary_key: false
+      - nullable: true
+      - name: txnomeparlamentar
+      - description: 'Parlamentar'
+      - datatype: string
+      - length: 63
+      - primary_key: false
+      - nullable: true
+      - name: sgpartido
+      - description: 'Partido'
+      - datatype: string
+      - length: 18
+      - primary_key: false
+      - nullable: true
+      - name: sguf
+      - description: 'UF'
+      - datatype: string
+      - length: 2
+      - primary_key: false
+      - nullable: true
+      - name: txtdescricao
+      - description: 'Descrição'
+      - datatype: string
+      - length: 127
+      - primary_key: false
+      - nullable: true
+      - name: txtcnpjcpf
+      - description: 'CPF/CNPJ do Fornecedor'
+      - datatype: string
+      - length: 14
+      - primary_key: false
+      - nullable: true
+      - name: txtfornecedor
+      - description: 'Fornecedor'
+      - datatype: string
+      - length: 255
+      - primary_key: false
+      - nullable: true
+      - name: vlrdocumento
+      - description: 'Valor do Documento'
+      - datatype: decimal
+      - precision: 8
+      - scale: 2
+      - primary_key: false
+      - nullable: true
+      - name: vlrglosa
+      - description: 'Valor Glosa'
+      - datatype: decimal
+      - precision: 8
+      - scale: 2
+      - primary_key: false
+      - nullable: true
+      - name: codlegislatura
+      - description: 'Código Legislatura'
+      - datatype: integer
+      - primary_key: false
+      - nullable: true
+      - name: numano
+      - description: 'Ano'
+      - datatype: integer
+      - primary_key: false
+      - nullable: true
+      - name: numano
+      - description: 'Ano'
+      - datatype: integer
+      - primary_key: false
+      - nullable: true
+      - name: numano
+      - description: 'Ano'
+      - datatype: integer
+      - primary_key: false
+      - nullable: true
+      - name: numano
+      - description: 'Ano'
+      - datatype: integer
+      - primary_key: false
+      - nullable: true
+      - name: numano
+      - description: 'Ano'
+      - datatype: integer
+      - primary_key: false
+      - nullable: true
+      - name: numano
+      - description: 'Ano'
+      - datatype: integer
+      - primary_key: false
+      - nullable: true
+      - name: numano
+      - description: 'Ano'
+      - datatype: integer
+      - primary_key: false
+      - nullable: true
+      - name: vlrliquido
+      - name: decimal (max_digits=8, decimal_places=2)
+      - name: Valor Líquido
+      - name: idedocumento
+      - name: integer
+      - name: IDE Documento
+      - name: idecadastro
+      - name: integer
+      - name: IDE Cadastro
+      - name: indtipodocumento
+      - name: integer
+      - name: Ind Tipo Documento
+      - name: nucarteiraparlamentar
+      - name: integer
+      - name: Número Carteira Parlamentar
+      - name: nudeputadoid
+      - name: integer
+      - name: Número Deputado ID
+      - name: nulegislatura
+      - name: integer
+      - name: Número Legislatura
+      - name: numespecificacaosubcota
+      - name: integer
+      - name: numespecificacaosubcota
+      - name: numlote
+      - name: integer
+      - name: Número de Lote
+      - name: numparcela
+      - name: integer
+      - name: Número de Parcela
+      - name: numressarcimento
+      - name: integer
+      - name: Número de Ressarcimento
+      - name: numsubcota
+      - name: integer
+      - name: Número de Sub-cota
+      - name: txtdescricaoespecificacao
+      - name: string (max_length=31)
+      - name: Texto Descrição Especificação
+      - name: txtnumero
+      - name: string (max_length=63)
+      - name: Texto Número
+      - name: txtpassageiro
+      - name: string (max_length=127)
+      - name: Passageiro
+      - name: txttrecho
+      - name: string (max_length=127)
+      - name: Trecho
+      - name: vlrrestituicao
+      - name: decimal (max_digits=8, decimal_places=2)
+      - name: Valor da Restituição
