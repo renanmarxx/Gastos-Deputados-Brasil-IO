@@ -13,3 +13,9 @@ It was created under a CI/CD pipeline gathering information from API sources, st
 ## Key Features
 
 ## Dependencies
+
+## Pre-Commit
+
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit)
+
+This repository uses [pre-commit](https://www.pre-commit.com) feature in order to lint the files each time they pass through a commit on pull request.
