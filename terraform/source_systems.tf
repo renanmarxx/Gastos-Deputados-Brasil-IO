@@ -21,7 +21,7 @@ module "gastos_deputados" {
         "--data_contracts",
         "gastos_deputados",
         "--landing_path",
-        "s3://<PENDING>"
+        "s3://renan-marx-data-engineering-projects/gastos-deputados-brasil-io/landing-bucket-gastos-deputados-brasil-io"
       ]
     },
     {
