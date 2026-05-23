@@ -6,10 +6,10 @@ from io import BytesIO
 from typing import Optional
 
 import boto3
-from brasil_io import BrasilIO
+from BrasilIO import BrasilIO
 
 from helpers.logging import logger
-from config import BRASIL_IO_TOKEN, S3_BUCKET, S3_PREFIX
+from core.settings import BRASIL_IO_TOKEN, S3_BUCKET, S3_PREFIX
 
 
 def ingest_brasil_io_to_s3(
@@ -32,7 +32,6 @@ def ingest_brasil_io_to_s3(
         SystemExit: if Brasil.io token, S3_BUCKET, or AWS credentials are invalid.
     """
 
-    # Validate Brasil.io token
     token = brasil_io_token or os.environ.get("BRASIL_IO_TOKEN")
     if not token or token == "":
         raise SystemExit(
