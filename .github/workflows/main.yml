@@ -104,7 +104,7 @@ jobs:
         run: |
           set -euo pipefail
 
-          poetry run python scripts/ingest_csv_to_s3.py
+          poetry run python arpad/ingest_csv_to_s3.py
 
       - name: Upload file to S3
         run: |
