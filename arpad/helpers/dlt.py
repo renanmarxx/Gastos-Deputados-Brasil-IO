@@ -2,8 +2,8 @@ from re import compile
 from pyspark.sql.types import StructType
 from pyspark.sql import Dataframe, SparkSession
 
-from scripts.helpers.logging import logger
-from scripts.core.settings import SparkSettings
+from arpad.helpers.logging import logger
+from arpad.core.settings import SparkSettings
 
 
 class DLTHelper:

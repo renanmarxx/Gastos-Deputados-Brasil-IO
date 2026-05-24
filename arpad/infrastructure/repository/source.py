@@ -1,7 +1,7 @@
 from pyspark.sql import SparkSession
 
-from scripts.core.settings import settings
-from scripts.helpers.logging import logger
+from arpad.core.settings import settings
+from arpad.helpers.logging import logger
 
 
 class DataSource:

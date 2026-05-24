@@ -1,3 +1,6 @@
+from builtins import dict, str
+
+
 class SparkSettings:
     # File type to be read and ingested into the Delta Live Table
     RAW_FILE_TYPE: str = "csv"
@@ -58,6 +61,9 @@ class AWSSettings:
 
 
 class BrasilIOConfig:
+    # Base URL for Brasil.io API
+    BASE_URL: str = "https://data.brasil.io"
+
     # Brasil.io API Token
     BRASIL_IO_TOKEN: str = "meu-api-token"
 
@@ -68,8 +74,15 @@ class BrasilIOConfig:
     TABLE_NAME: str = "cota_parlamentar"
 
 
+class EnvinronmentSettings:
+    ENV: dict[str, str] = {"dev": "dev", "prod": "prod"}
+
+    CSV_FOLDER: str = "data"
+
+
 class Settings:
     aws = AWSSettings()
     spark = SparkSettings()
     databricks = DatabricksSettings()
     brasil_io = BrasilIOConfig()
+    environment = EnvinronmentSettings()
