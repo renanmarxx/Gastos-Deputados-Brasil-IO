@@ -1,15 +1,14 @@
 import json
-import os
-import shutil
 from typing import Any, BinaryIO, Dict, Iterator, Optional
 from urllib.parse import urlencode, urljoin
 from urllib.request import Request, urlopen
+from builtins import property, str
 
-from helpers.logging import logger
+from arpad.core.settings import BrasilIOConfig
 
 
 class BrasilIO:
-    BASE_URL = "https://api.brasil.io/v1/"
+    BASE_URL = BrasilIOConfig.BASE_URL
 
     def __init__(self, auth_token: str) -> None:
         self.__auth_token = auth_token
@@ -49,23 +48,23 @@ class BrasilIO:
 
     def data(
         self,
-        DATASET_SLUG: str,
-        TABLE_NAME: str,
+        dataset: str,
+        table_name: str,
         filters: Optional[Dict[str, Any]] = None,
     ) -> Iterator[Dict[str, Any]]:
         """
         Iterator over dataset rows.
 
         Args:
-            DATASET_SLUG: dataset slug (e.g.: "gastos-deputados").
-            TABLE_NAME: nome da tabela (e.g.: "cota_parlamentar").
+            dataset: dataset slug (e.g.: "gastos-deputados").
+            table_name: nome da tabela (e.g.: "cota_parlamentar").
             filters: query aditional filters (opcional).
 
         Yields:
             Each line returned by the API as `dict`.
         """
 
-        url = f"dataset/{DATASET_SLUG}/{TABLE_NAME}/data/"
+        url = f"dataset/{dataset}/{table_name}/data/"
         filters = filters or {}
         filters["page"] = 1
 
@@ -79,54 +78,20 @@ class BrasilIO:
             url = next_page
             finished = next_page is None
 
-    def download(self, dataset: str, TABLE_NAME: str) -> BinaryIO:
+    def download(self, dataset: str, table_name: str) -> BinaryIO:
         """
         Downloads the dataset file on .csv format
         and returns a binary object with its content.
 
         Args:
             dataset: dataset slug.
-            TABLE_NAME: table name.
+            table_name: table name.
 
         Returns:
             Binary (`BinaryIO`) with the file content (`read()`).
         """
 
-        url = f"https://data.brasil.io/dataset/{dataset}/{TABLE_NAME}.csv.gz"
+        url = f"{self.BASE_URL}/dataset/{dataset}/{table_name}.csv.gz"
         request = Request(url, headers=self.headers)
         response = urlopen(request)
         return response
-
-
-if __name__ == "__main__":
-    API = BrasilIO("meu-api-token")
-    DATASET_SLUG = "gastos-deputados"
-    TABLE_NAME = "cota_parlamentar"
-
-    # To download the full file:
-    # After downloading, it will store the file on local memory in `data/` folder.
-
-    # Connects to the API:
-    response = API.download(DATASET_SLUG, TABLE_NAME)
-
-    # Check if `data/` folder exists, if so cleans the entire directory.
-    # Otherwise, it will create a new folder:
-    if os.path.exists("data"):
-        shutil.rmtree("data")
-    os.makedirs("data", exist_ok=True)
-
-    # Defining file path:
-    out_path = os.path.join("data", f"{DATASET_SLUG}_{TABLE_NAME}.csv")
-
-    # Defining chunks to store the file to avoid memory overloads:
-    chunk_size = 16 * 1024
-
-    # Writing the file in chunks:
-    with open(out_path, mode="wb") as fobj:
-        while True:
-            chunk = response.read(chunk_size)
-            if not chunk:
-                break
-            fobj.write(chunk)
-
-    logger.info(f"File stored succesfuly at: {out_path}")

@@ -1,6 +1,6 @@
 from argparse import ArgumentParser
 
-from scripts.helpers.logging import logger
+from arpad.helpers.logging import logger
 
 
 class DatabricksHelper:

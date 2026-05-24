@@ -1,7 +1,7 @@
 import logging
 
-from helpers.logging.config import LoggingConfig
-from helpers.logging.handlers import ConsoleHandler
+from arpad.helpers.logging.config import LoggingConfig
+from arpad.helpers.logging.handlers import ConsoleHandler
 
 
 class Logger:

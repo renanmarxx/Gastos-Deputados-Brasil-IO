@@ -3,13 +3,14 @@ import os
 import shutil
 from datetime import date
 from io import BytesIO
-from typing import Optional
 
 import boto3
-from BrasilIO import BrasilIO
+from arpad.BrasilIO import BrasilIO
 
-from helpers.logging import logger
-from core.settings import BRASIL_IO_TOKEN, S3_BUCKET, S3_PREFIX
+from arpad.helpers.logging import logger
+from arpad.core.settings import BrasilIOConfig, AWSSettings
+
+# BRASIL_IO_TOKEN, S3_BUCKET, S3_PREFIX
 
 
 def ingest_brasil_io_to_s3(
@@ -17,7 +18,7 @@ def ingest_brasil_io_to_s3(
     table_name: str,
     s3_bucket: str,
     s3_prefix: str,
-    brasil_io_token: Optional[str] = None,
+    brasil_io_token: str,
 ) -> None:
     """Download data from Brasil.io and upload to S3.
 
@@ -32,19 +33,26 @@ def ingest_brasil_io_to_s3(
         SystemExit: if Brasil.io token, S3_BUCKET, or AWS credentials are invalid.
     """
 
-    token = brasil_io_token or os.environ.get("BRASIL_IO_TOKEN")
+    logger.info("Starting data ingestion from Brasil.io to S3...")
+
+    token = brasil_io_token
+    logger.info("Validating if Brasil.io was properly configured...")
     if not token or token == "":
         raise SystemExit(
             "ERROR: set BRASIL_IO_TOKEN (environment variable or config.py)"
         )
 
-    # Validate S3 bucket
-    if not s3_bucket or s3_bucket == "meu-bucket-exemplo":
+    logger.info("Validating if S3 was properly configured...")
+    if not s3_bucket:
         raise SystemExit("ERROR: set AWS_S3_BUCKET with a valid S3 bucket")
 
-    # Download data from Brasil.io into memory
+    logger.info("Downloading data from Brasil.io into memory...")
     api = BrasilIO(token)
+
+    logger.info("Getting response from Brasil.io API...")
     response = api.download(dataset_slug, table_name)
+
+    logger.info("Getting csv content from the API...")
     csv_content = response.read()
 
     # Save local copy for reference
@@ -70,10 +78,6 @@ def ingest_brasil_io_to_s3(
         s3.upload_fileobj(csv_bytes, s3_bucket, key)
         logger.info("Successful upload to the S3 Bucket: s3://%s/%s", s3_bucket, key)
 
-        # if os.path.exists(out_path):
-        #    os.remove(out_path)
-        #    logger.info("Local CSV file removed: %s", out_path)
-
     except Exception as e:
         logger.error(
             "Error uploading to the S3 Bucket: %s: %s",
@@ -92,9 +96,9 @@ def main() -> None:
     ingest_brasil_io_to_s3(
         dataset_slug=DATASET_SLUG,
         table_name=TABLE_NAME,
-        s3_bucket=S3_BUCKET,
-        s3_prefix=S3_PREFIX,
-        brasil_io_token=BRASIL_IO_TOKEN,
+        s3_bucket=AWSSettings.S3_BUCKET,
+        s3_prefix=AWSSettings.S3_PREFIX,
+        brasil_io_token=BrasilIOConfig.BRASIL_IO_TOKEN,
     )
 
 
