@@ -63,7 +63,7 @@ variable "data_security_mode" {
 #-----------------------
 variable "zone_id" {
   type    = string
-  default = "us-east-1-d"
+  default = "us-east-1-a"
 }
 
 variable "availability" {
@@ -145,9 +145,8 @@ variable "workflow_tasks" {
 variable "custodian_ad_groups" {
   type = map(any)
   default = {
-    "prod" = "PENDING",
     "devl" = "PENDING",
-    "qual" = "PENDING",
+    "prod" = "PENDING",
   }
 }
 
@@ -160,7 +159,6 @@ variable "pause_status" {
   type = map(any)
   default = {
     devl = "PAUSED",
-    qual = "PAUSED",
     prod = "PAUSED"
   }
 }
